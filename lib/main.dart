@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/khaled.dart';
 import 'package:flutter_application_2/pages/page1.dart';
 import 'package:flutter_application_2/pages/page2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp( ScreenUtilInit( 
-     designSize: Size(392, 835),
-       minTextAdapt: true,
-    
-    builder: () => MaterialApp(
-      routes: {
-        'page1':(context)=>Page1(),
-        'page2':(context)=>Page2('default')
-      },
-     
-    initialRoute: 'page1',)));
+  runApp( ChangeNotifierProvider<Khaled>(
+    create: (context) {
+      return Khaled(); // singlton
+    },
+    child: ScreenUtilInit( 
+       designSize: Size(392, 835),
+         minTextAdapt: true,
+      
+      builder: () => MyMainApp()),
+  ));
+}
+class MyMainApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+   return MaterialApp(
+     theme:Provider.of<Khaled>(context).isLight ? ThemeData.light(): ThemeData.dark(),
+
+        routes: {
+          Page1.routeName:(context)=>Page1(),
+          'page2':(context)=>Page2('default')
+        },
+       
+      initialRoute: 'page1',);
+  }
 }
 class MyApp extends StatelessWidget{
 
