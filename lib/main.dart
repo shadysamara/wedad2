@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/khaled.dart';
 import 'package:flutter_application_2/pages/page1.dart';
 import 'package:flutter_application_2/pages/page2.dart';
+import 'package:flutter_application_2/todo_app/pages/home_oage.dart';
+import 'package:flutter_application_2/todo_app/pages/new_task_page.dart';
+import 'package:flutter_application_2/todo_app/providers/todo_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp( ChangeNotifierProvider<Khaled>(
-    create: (context) {
-      return Khaled(); // singlton
-    },
+  runApp( MultiProvider(
+    providers: [
+      ChangeNotifierProvider<TaskProvider>(create: (context)=>TaskProvider()),
+       ChangeNotifierProvider<ThemeProvider>(create: (context)=>ThemeProvider()),
+    ],
     child: ScreenUtilInit( 
        designSize: Size(392, 835),
          minTextAdapt: true,
@@ -22,14 +26,14 @@ class MyMainApp extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
    return MaterialApp(
-     theme:Provider.of<Khaled>(context).isLight ? ThemeData.light(): ThemeData.dark(),
+     theme:Provider.of<ThemeProvider>(context).isLight ? ThemeData.light(): ThemeData.dark(),
 
-        routes: {
-          Page1.routeName:(context)=>Page1(),
-          'page2':(context)=>Page2('default')
-        },
+        // routes: {
+        //   Page1.routeName:(context)=>Page1(),
+        //   'page2':(context)=>Page2('default')
+        // },
        
-      initialRoute: 'page1',);
+     home: TodoHomeScreen(),);
   }
 }
 class MyApp extends StatelessWidget{
